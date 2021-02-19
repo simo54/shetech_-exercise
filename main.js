@@ -1,6 +1,12 @@
 var listItems = ["Buy coffee", "Buy milk", "Disco dance"];
-var listElement = document.querySelector("#task-list");
 
-listItems.forEach(function (task) {
-  listElement.innerHTML += "<li>" + task + "</li>";
-});
+// Defining our `updateList()` function...
+var updateList = function (items) {
+  var listElement = document.querySelector("#task-list");
+
+  items.forEach(function (item) {
+    listElement.innerHTML += "<li>" + item + "</li>";
+  });
+};
+
+updateList(listItems);
