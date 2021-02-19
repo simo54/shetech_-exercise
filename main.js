@@ -1,2 +1,6 @@
-const listElement = document.querySelector("#task-list");
-listElement.innerHTML = listElement.innerHTML + "<li>Disco dance</li>";
+var listItems = ["Buy coffee", "Buy milk", "Disco dance"];
+var listElement = document.querySelector("#task-list");
+
+listItems.forEach(function (task) {
+  listElement.innerHTML += "<li>" + task + "</li>";
+});
