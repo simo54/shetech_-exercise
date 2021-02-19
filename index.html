@@ -11,6 +11,11 @@
   <body>
     <h2>Awesome Tasks</h2>
 
+    <form onsubmit="createNew(event)">
+      <input id="new-item" placeholder="Add a new task..." />
+      <button>Add</button>
+    </form>
+
     <ul id="task-list"></ul>
 
     <!-- Linking the js file  -->
