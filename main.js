@@ -6,11 +6,9 @@ var updateList = function (items) {
   listElement.innerHTML = "";
 
   items.forEach(function (item) {
-    listElement.innerHTML += "<li>" + item + "</li>";
+    listElement.innerHTML += renderItem(item);
   });
 };
-
-updateList(listItems);
 
 var createNew = function (event) {
   event.preventDefault();
@@ -25,3 +23,20 @@ var createNew = function (event) {
 
   updateList(listItems);
 };
+
+var renderItem = function (itemText) {
+  var template = document.querySelector("#item-template").innerHTML;
+  return template.replace("_TEXT_", itemText);
+};
+
+var removeItem = function (event) {
+  var clickedItemText = event.target.previousElementSibling.innerHTML;
+
+  listItems = listItems.filter(function (itemText) {
+    return clickedItemText != itemText;
+  });
+
+  updateList(listItems);
+};
+
+updateList(listItems);
