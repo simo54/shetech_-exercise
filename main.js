@@ -1,12 +1,13 @@
-var updateList = function (items) {
+var updateList = function (items, save) {
   var listElement = document.querySelector("#task-list");
+
   listElement.innerHTML = "";
 
   items.forEach(function (item) {
     listElement.innerHTML += renderItem(item);
   });
 
-  localStorage.listItems = JSON.stringify(items); // New line added
+  if (save) localStorage.listItems = JSON.stringify(items);
 };
 
 var createNew = function (event) {
@@ -70,6 +71,32 @@ var loadList = function () {
     { text: "Buy milk", completed: false },
     { text: "Disco dance", completed: false },
   ];
+};
+
+var filterItems = function (status) {
+  var itemsToShow = [];
+
+  if (status == "completed") {
+    itemsToShow = listItems.filter(function (item) {
+      return item.completed;
+    });
+  } else if (status == "active") {
+    itemsToShow = listItems.filter(function (item) {
+      return !item.completed;
+    });
+  } else {
+    itemsToShow = listItems;
+  }
+
+  updateList(itemsToShow);
+};
+
+var clearCompleted = function () {
+  listItems = listItems.filter(function (item) {
+    return !item.completed;
+  });
+
+  updateList(listItems, true);
 };
 
 var listItems = loadList();
