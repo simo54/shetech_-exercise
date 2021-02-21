@@ -1,18 +1,12 @@
-var listItems = [
-  { text: "Buy coffee", completed: true },
-  { text: "Buy milk", completed: false },
-  { text: "Disco dance", completed: false },
-];
-
 var updateList = function (items) {
-  console.log("updateList()");
   var listElement = document.querySelector("#task-list");
   listElement.innerHTML = "";
 
   items.forEach(function (item) {
     listElement.innerHTML += renderItem(item);
   });
-  console.log(items);
+
+  localStorage.listItems = JSON.stringify(items); // New line added
 };
 
 var createNew = function (event) {
@@ -67,5 +61,17 @@ var toggleStatus = function (event) {
 
   updateList(listItems);
 };
+
+var loadList = function () {
+  if (localStorage.listItems) return JSON.parse(localStorage.listItems);
+  console.log("called");
+  return [
+    { text: "Buy coffee", completed: true },
+    { text: "Buy milk", completed: false },
+    { text: "Disco dance", completed: false },
+  ];
+};
+
+var listItems = loadList();
 
 updateList(listItems);
