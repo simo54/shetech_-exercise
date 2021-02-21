@@ -1,6 +1,5 @@
 var updateList = function (items, save) {
   var listElement = document.querySelector("#task-list");
-
   listElement.innerHTML = "";
 
   items.forEach(function (item) {
@@ -8,11 +7,11 @@ var updateList = function (items, save) {
   });
 
   if (save) localStorage.listItems = JSON.stringify(items);
+
+  updateCounters();
 };
 
 var createNew = function (event) {
-  console.log("createNew()");
-
   event.preventDefault();
 
   var newItemElement = document.querySelector("#new-item");
@@ -22,50 +21,38 @@ var createNew = function (event) {
 
   listItems.push({ text: newItemValue, completed: false });
   newItemElement.value = "";
-  console.log(listItems);
 
   updateList(listItems);
 };
 
 var renderItem = function (item) {
-  console.log("renderItem()");
-
   var template = document.querySelector("#item-template").innerHTML;
   return template.replace("_TEXT_", item.text);
 };
 
 var removeItem = function (event) {
-  console.log("removeItem()");
-
   var clickedItemText = event.target.previousElementSibling.innerHTML;
 
   listItems = listItems.filter(function (item) {
     return clickedItemText != item.text;
   });
-  console.log(listItems);
 
   updateList(listItems);
 };
 
 var toggleStatus = function (event) {
-  console.log("toggleStatus()");
-
   var clickedItemText = event.target.innerHTML;
-  console.log(clickedItemText);
   listItems.forEach(function (item) {
-    console.log(item);
     if (clickedItemText == item.text) {
       item.completed = !item.completed;
     }
   });
-  console.log(listItems);
 
   updateList(listItems);
 };
 
 var loadList = function () {
   if (localStorage.listItems) return JSON.parse(localStorage.listItems);
-  console.log("called");
   return [
     { text: "Buy coffee", completed: true },
     { text: "Buy milk", completed: false },
@@ -97,6 +84,19 @@ var clearCompleted = function () {
   });
 
   updateList(listItems, true);
+};
+
+var updateCounters = function () {
+  var completedCount = 0;
+
+  listItems.forEach(function (item) {
+    if (item.completed) completedCount++;
+  });
+
+  document.querySelector(".filter-all").dataset.count = listItems.length;
+  document.querySelector(".filter-active").dataset.count =
+    listItems.length - completedCount;
+  document.querySelector(".filter-completed").dataset.count = completedCount;
 };
 
 var listItems = loadList();
